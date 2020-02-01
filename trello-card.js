@@ -6,8 +6,8 @@ class TrelloCard extends HTMLElement {
   constructor() {
     super();
 
-    this.root = this.attachShadow({ mode: 'open' });
-    this.root.innerHTML = `
+    const shadowRoot = this.attachShadow({ mode: 'open' });
+    shadowRoot.innerHTML = `
       <style>
         .container {
           background-color: #fff;
@@ -39,7 +39,7 @@ class TrelloCard extends HTMLElement {
       </div>
     `;
 
-    this.root.addEventListener('click', this.toggleDescription);
+    this.shadowRoot.addEventListener('click', this.toggleDescription);
   }
 
   set title(title) {
@@ -51,7 +51,9 @@ class TrelloCard extends HTMLElement {
   }
 
   toggleDescription = () => {
-    const descriptionEl = this.root.querySelector('slot[name=description]');
+    const descriptionEl = this.shadowRoot.querySelector(
+      'slot[name=description]',
+    );
     console.log(descriptionEl);
     const open = descriptionEl.getAttribute('open');
     if (open) {
@@ -66,9 +68,11 @@ class TrelloCard extends HTMLElement {
   }
 
   render() {
-    const titleEl = this.root.querySelector('slot[name=title]');
+    const titleEl = this.shadowRoot.querySelector('slot[name=title]');
     titleEl.innerHTML = this.getAttribute('title');
-    const descriptionEl = this.root.querySelector('slot[name=description]');
+    const descriptionEl = this.shadowRoot.querySelector(
+      'slot[name=description]',
+    );
     descriptionEl.innerHTML = this.getAttribute('description');
   }
 }

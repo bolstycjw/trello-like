@@ -5,7 +5,7 @@ class TrelloButton extends HTMLElement {
     this.root = this.attachShadow({ mode: 'open' });
     this.root.innerHTML = `
       <style>
-        :host {
+        .container {
           display: inline-block;
           background-color: #5aac44;
           padding: 8px;
@@ -13,8 +13,18 @@ class TrelloButton extends HTMLElement {
           cursor: pointer;
           color: #fff;
         }
+
+        .container:hover {
+          background-color: #61bd4f;
+        }
+
+        .container:active {
+          background-color: #49852e;
+        }
       </style>
-      <span><slot></slot></span>
+      <div class="container">
+        <span><slot></slot></span>
+      </div>
     `;
   }
 }

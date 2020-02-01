@@ -8,8 +8,8 @@ class TrelloBoard extends HTMLElement {
   constructor() {
     super();
 
-    this.root = this.attachShadow({ mode: 'open' });
-    this.root.innerHTML = `
+    const shadowRoot = this.attachShadow({ mode: 'open' });
+    shadowRoot.innerHTML = `
       <style>
         .container {
           background-color: #844;
@@ -31,13 +31,14 @@ class TrelloBoard extends HTMLElement {
 
   async connectedCallback() {
     const columns = await fetchColumns();
-    const board = this.root.querySelector('.container');
+    const board = this.shadowRoot.querySelector('.container');
     columns.forEach(column => {
-      const el = document.createElement('trello-column');
-      el.title = column.title;
-      el.cards = column.cards;
+      const cardEl = document.createElement('trello-column');
+      cardEl.id = column.id;
+      cardEl.title = column.title;
+      cardEl.cards = column.cards;
 
-      board.appendChild(el);
+      board.appendChild(cardEl);
     });
   }
 }
