@@ -27,17 +27,18 @@ class TrelloColumn extends HTMLElement {
         .card-list {
           display: flex;
           flex-direction: column;
+          margin-bottom: 8px;
         }
 
         .card-list > trello-card {
-          margin: 8px 0;
+          margin: 4px 0;
         }
       </style>
 
       <div class="container">
-        <div slot="title" class="title">Title</div>
-        <div class="card-list">
-        </div>
+        <div class="title"><slot name="title">Title</slot></div>
+        <div class="card-list"></div>
+        <trello-card-composer></trello-card-composer>
       </div>
     `;
   }
@@ -61,7 +62,7 @@ class TrelloColumn extends HTMLElement {
   }
 
   render() {
-    const titleEl = this.root.querySelector('[slot=title]');
+    const titleEl = this.root.querySelector('slot[name=title]');
     titleEl.innerHTML = this.getAttribute('title');
   }
 }

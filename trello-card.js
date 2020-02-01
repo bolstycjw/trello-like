@@ -9,23 +9,34 @@ class TrelloCard extends HTMLElement {
     this.root = this.attachShadow({ mode: 'open' });
     this.root.innerHTML = `
       <style>
-        :host {
+        .container {
           background-color: #fff;
           padding: 8px;
           border-radius: 4px;
           box-shadow: 0 1px 0 rgba(9,30,66,.25);
+          cursor: pointer;
         }
 
-        .description {
+        .container:hover {
+          background-color: #f4f5f7;
+        }
+
+        slot[name=description] {
           display: none;
         }
 
-        .description[open] {
+        slot[name=description][open]{
           display: block;
         }
       </style>
-      <div slot="title" class="title">Title</div>
-      <div slot="description" class="description"></div>
+      <div class="container">
+        <div class="title">
+          <slot name="title">Title</slot>
+        </div>
+        <div class="description">
+          <slot name="description"></slot>
+        </div>
+      </div>
     `;
 
     this.root.addEventListener('click', this.toggleDescription);
@@ -40,7 +51,8 @@ class TrelloCard extends HTMLElement {
   }
 
   toggleDescription = () => {
-    const descriptionEl = this.root.querySelector('[slot=description]');
+    const descriptionEl = this.root.querySelector('slot[name=description]');
+    console.log(descriptionEl);
     const open = descriptionEl.getAttribute('open');
     if (open) {
       descriptionEl.removeAttribute('open');
@@ -54,9 +66,9 @@ class TrelloCard extends HTMLElement {
   }
 
   render() {
-    const titleEl = this.root.querySelector('[slot=title]');
+    const titleEl = this.root.querySelector('slot[name=title]');
     titleEl.innerHTML = this.getAttribute('title');
-    const descriptionEl = this.root.querySelector('[slot=description]');
+    const descriptionEl = this.root.querySelector('slot[name=description]');
     descriptionEl.innerHTML = this.getAttribute('description');
   }
 }
