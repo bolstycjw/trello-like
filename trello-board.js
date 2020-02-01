@@ -4,6 +4,17 @@ async function fetchColumns() {
   return columns;
 }
 
+async function postColumn(data) {
+  const res = await fetch('http://localhost:3000/columns', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return res;
+}
+
 class TrelloBoard extends HTMLElement {
   constructor() {
     super();
@@ -19,20 +30,36 @@ class TrelloBoard extends HTMLElement {
 
         }
 
-        .container > trello-column {
-          margin: 32px;
+        .container > trello-column, trello-column-composer { margin: 8px;
         }
       </style>
 
       <div class="container">
       </div>
     `;
+    shadowRoot.addEventListener('column-added', this.addColumn);
   }
 
+  addColumn = async e => {
+    const title = e.detail;
+    const id = this.getAttribute('id');
+    const data = {
+      title,
+    };
+    const res = await postColumn(data);
+    this.columns = await fetchColumns();
+    this.render();
+  };
+
   async connectedCallback() {
-    const columns = await fetchColumns();
+    this.columns = await fetchColumns();
+    this.render();
+  }
+
+  render() {
     const board = this.shadowRoot.querySelector('.container');
-    columns.forEach(column => {
+    board.innerHTML = '';
+    this.columns.forEach(column => {
       const cardEl = document.createElement('trello-column');
       cardEl.id = column.id;
       cardEl.title = column.title;
@@ -40,6 +67,7 @@ class TrelloBoard extends HTMLElement {
 
       board.appendChild(cardEl);
     });
+    board.appendChild(document.createElement('trello-column-composer'));
   }
 }
 

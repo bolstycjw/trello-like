@@ -83,11 +83,10 @@ class TrelloColumn extends HTMLElement {
 
   addCard = async e => {
     const title = e.detail;
-    console.log(title);
     const id = this.getAttribute('id');
     const data = {
       title,
-      columnId: id,
+      columnId: parseInt(id),
     };
     const res = await postCard(data);
     const cards = await fetchCards(id);

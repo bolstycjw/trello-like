@@ -7,6 +7,14 @@
     {
       "id": 2,
       "title": "Column 2"
+    },
+    {
+      "title": "Column 3",
+      "id": 3
+    },
+    {
+      "title": "Col 4",
+      "id": 4
     }
   ],
   "cards": [
@@ -39,6 +47,16 @@
       "title": "Card 5",
       "description": "Suspendisse posuere ipsum at dui lacinia, ut faucibus lectus mollis.",
       "columnId": 2
+    },
+    {
+      "title": "Card 6",
+      "columnId": 3,
+      "id": 6
+    },
+    {
+      "title": "Card 7",
+      "columnId": 4,
+      "id": 7
     }
   ]
 }
