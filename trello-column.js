@@ -1,10 +1,18 @@
 class TrelloColumn extends HTMLElement {
+  static get observedAttributes() {
+    return ['title'];
+  }
+
   constructor() {
     super();
 
     this.root = this.attachShadow({ mode: 'open' });
     this.root.innerHTML = `
       <style>
+        :host {
+          width: 272px;
+        }
+
         .container {
           background-color: #ebecf0;
           padding: 8px;
@@ -35,8 +43,7 @@ class TrelloColumn extends HTMLElement {
   }
 
   set title(title) {
-    const titleEl = this.root.querySelector('[slot=title]');
-    titleEl.innerHTML = title;
+    this.setAttribute('title', title);
   }
 
   set cards(cards) {
@@ -44,8 +51,18 @@ class TrelloColumn extends HTMLElement {
     cards.forEach(card => {
       const cardEl = document.createElement('trello-card');
       cardEl.title = card.title;
+      cardEl.description = card.description;
       column.appendChild(cardEl);
     });
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.render();
+  }
+
+  render() {
+    const titleEl = this.root.querySelector('[slot=title]');
+    titleEl.innerHTML = this.getAttribute('title');
   }
 }
 
