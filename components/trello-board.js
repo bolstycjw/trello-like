@@ -1,19 +1,4 @@
-async function fetchColumns() {
-  const res = await fetch('http://localhost:3000/columns?_embed=cards');
-  const columns = await res.json();
-  return columns;
-}
-
-async function postColumn(data) {
-  const res = await fetch('http://localhost:3000/columns', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  return res;
-}
+import { fetchColumns, postColumn } from '../apis.js';
 
 class TrelloBoard extends HTMLElement {
   constructor() {

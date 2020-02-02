@@ -1,19 +1,4 @@
-async function fetchCards(id) {
-  const res = await fetch(`http://localhost:3000/columns/${id}/cards`);
-  const cards = await res.json();
-  return cards;
-}
-
-async function postCard(data) {
-  const res = await fetch('http://localhost:3000/cards', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  return res;
-}
+import { fetchCards, postCard } from '../apis.js';
 
 class TrelloColumn extends HTMLElement {
   static get observedAttributes() {
